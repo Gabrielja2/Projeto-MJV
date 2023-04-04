@@ -33,7 +33,7 @@ abstract class AbstractODM<T> {
     return await this.model.findById(id)
   }
 
-  public async updateById(id: string, body: IUserUpdate): Promise<T | null> {
+  public async updateById(id: string, body: IUserUpdate | IJuice): Promise<T | null> {
     if (!isValidObjectId(id)) throw new CustomError(422, 'Invalid mongo id')
     return await this.model.findByIdAndUpdate(id, { ...body }, { new: true })
   }
