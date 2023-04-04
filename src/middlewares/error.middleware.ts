@@ -1,9 +1,9 @@
-import { ErrorRequestHandler } from 'express';
+import { type ErrorRequestHandler } from 'express'
 
-class ErrorHandler {
-  public static handler: ErrorRequestHandler = (err, req, res, _next) => {
-    res.status(err.status || 500).json({ message: err.message });
-  };
+class ErrorHandler extends Error {
+  public static handler: ErrorRequestHandler = (err, _req, res, _next) => {
+    res.status(err.status || 500).json({ message: err.message })
+  }
 }
 
-export default ErrorHandler;
+export default ErrorHandler
