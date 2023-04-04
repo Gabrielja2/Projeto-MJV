@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import CustomError from '../utils/customError';
-import updateSchema from '../validations/update';
+import updateSchema from '../validations/update.schema';
 
-function loginMiddleware(req: Request, res: Response, next: NextFunction) {
+function updateUserMiddleware(req: Request, res: Response, next: NextFunction) {
   const { username, email } = req.body;
   const { error } = updateSchema.validate({ username, email });
 
@@ -10,4 +10,4 @@ function loginMiddleware(req: Request, res: Response, next: NextFunction) {
   next();
 }
 
-export default loginMiddleware;
+export default updateUserMiddleware;
