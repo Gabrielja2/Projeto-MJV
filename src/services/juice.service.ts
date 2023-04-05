@@ -11,12 +11,12 @@ export default class JuiceService {
     return null
   }
 
-  public create = async ({ flavor, description }: IJuice): Promise<Juice | null> => {
-    const hasJuice = await this.createJuiceODM.findOne({ flavor })
+  public create = async ({ flavor, size, price, description }: IJuice): Promise<Juice | null> => {
+    const hasJuice = await this.createJuiceODM.findOne({ flavor, size })
 
     if (hasJuice) throw new CustomError(409, 'Juice already registered')
 
-    const juice = await this.createJuiceODM.create({ flavor, description })
+    const juice = await this.createJuiceODM.create({ flavor, size, price, description })
     return this.createJuiceDomain(juice)
   }
 
@@ -24,8 +24,8 @@ export default class JuiceService {
     return await this.createJuiceODM.getAll()
   }
 
-  public update = async (id: string, { flavor, description }: IJuice): Promise<Juice | { message: string }> => {
-    const updatedJuice = await this.createJuiceODM.updateById(id, { flavor, description })
+  public update = async (id: string, { flavor, description, size, price }: IJuice): Promise<Juice | { message: string }> => {
+    const updatedJuice = await this.createJuiceODM.updateById(id, { flavor, description, size, price })
     if (updatedJuice) {
       this.createJuiceDomain(updatedJuice)
       return { message: 'Juice updated' }
