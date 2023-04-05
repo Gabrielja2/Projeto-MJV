@@ -8,7 +8,8 @@ class UserODM extends AbstractODM<IUser> {
     const schema = new Schema({
       email: { type: String, required: true },
       password: { type: String, required: true },
-      username: { type: String, required: true }
+      username: { type: String, required: true },
+      role: { type: String, required: true }
     }, { versionKey: false })
 
     schema.pre('save', async function (next) {

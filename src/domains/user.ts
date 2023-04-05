@@ -5,11 +5,13 @@ export default class User {
   protected email: string
   protected password: string
   protected username: string
+  protected role: string
 
   constructor(user: IUser) {
     this.id = user.id
     this.email = user.email
     this.password = user.password
     this.username = user.username
+    this.role = user.role
   }
 }

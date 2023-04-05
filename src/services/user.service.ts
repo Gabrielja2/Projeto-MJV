@@ -32,7 +32,7 @@ export default class UserService {
 
     if (hasUser) throw new CustomError(409, 'User already registered')
 
-    const user = await this.createUserODM.create({ email, username, password })
+    const user = await this.createUserODM.create({ email, username, password, role: 'customer' })
     return this.createUserDomain(user)
   }
 
