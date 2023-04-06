@@ -35,13 +35,13 @@ export default class JuiceController {
     }
   }
 
-  public update = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  public update = async (req: Request, res: Response, next: NextFunction): Promise<Response | undefined> => {
     try {
       const { id } = req.params
       const juice = req.body
       const updatedJuice = await this._service.update(id, juice)
 
-      res.status(200).json(updatedJuice)
+      return res.status(200).json(updatedJuice)
     } catch (error) {
       next(error)
     }

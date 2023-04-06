@@ -1,4 +1,5 @@
 import User from '../domains/user'
+import { type IUser } from '../interfaces/user.interface'
 import type UserODM from '../models/userODM'
 import CustomError from '../utils/customError'
 import generateToken from '../utils/tokenGenerate'
@@ -28,7 +29,7 @@ export default class UserService {
     return token
   }
 
-  public async create(user: User): Promise<User> {
+  public async create(user: IUser): Promise<User> {
     const hasUser = await this.userODM.findOne({ email: user.email })
 
     if (hasUser) {
@@ -51,7 +52,7 @@ export default class UserService {
     return users.map((user) => new User(user))
   }
 
-  public async update(id: string, user: User): Promise<User> {
+  public async update(id: string, user: IUser): Promise<User> {
     const updatedUser = await this.userODM.updateById(id, user)
 
     if (updatedUser) {

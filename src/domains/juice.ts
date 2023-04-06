@@ -1,57 +1,57 @@
 import { type IJuice } from '../interfaces/juice.interface'
 
 export default class Juice {
-  protected _id?: string
-  protected _flavor: string
-  protected _size: string
-  protected _price: number
-  protected _description: string
+  protected id?: string
+  protected flavor: string
+  protected size: string
+  protected price: number
+  protected description: string
 
   constructor(juice: IJuice) {
-    this._id = juice.id
-    this._flavor = juice.flavor
-    this._size = juice.size
-    this._price = juice.price
-    this._description = juice.description
+    this.id = juice.id
+    this.flavor = juice.flavor
+    this.size = juice.size
+    this.price = juice.price
+    this.description = juice.description
   }
 
-  get id(): string | undefined {
-    return this._id
+  get _id(): string | undefined {
+    return this.id
   }
 
-  set id(value: string | undefined) {
-    this._id = value
+  set _id(value: string | undefined) {
+    this.id = value
   }
 
-  get flavor(): string {
-    return this._flavor
+  get _flavor(): string {
+    return this.flavor
   }
 
-  set flavor(value: string) {
-    this._flavor = value
+  set _flavor(value: string) {
+    this.flavor = value
   }
 
-  get size(): string {
-    return this._size
+  get _size(): string {
+    return this.size
   }
 
-  set size(value: string) {
-    this._size = value
+  set _size(value: string) {
+    this.size = value
   }
 
-  get price(): number {
-    return this._price
+  get _price(): number {
+    return this.price
   }
 
-  set price(value: number) {
-    this._price = value
+  set _price(value: number) {
+    this.price = value
   }
 
-  get description(): string {
-    return this._description
+  get _description(): string {
+    return this.description
   }
 
-  set description(value: string) {
-    this._description = value
+  set _description(value: string) {
+    this.description = value
   }
 }

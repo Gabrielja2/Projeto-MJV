@@ -4,45 +4,45 @@ import type UserService from '../services/user.service'
 export default class UserController {
   constructor(private readonly _service: UserService) { }
 
-  public login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  public login = async (req: Request, res: Response, next: NextFunction): Promise<Response | undefined> => {
     try {
       const { email, password } = req.body
       const token = await this._service.login(email, password)
 
-      res.status(200).json({ token })
+      return res.status(200).json({ token })
     } catch (error) {
       next(error)
     }
   }
 
-  public create = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  public create = async (req: Request, res: Response, next: NextFunction): Promise<Response | undefined> => {
     try {
       const user = req.body
       const newUser = await this._service.create(user)
 
-      res.status(201).json(newUser)
+      return res.status(201).json(newUser)
     } catch (error) {
       next(error)
     }
   }
 
-  public getAll = async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
+  public getAll = async (_req: Request, res: Response, next: NextFunction): Promise<Response | undefined> => {
     try {
       const users = await this._service.getAll()
 
-      res.status(200).json(users)
+      return res.status(200).json(users)
     } catch (error) {
       next(error)
     }
   }
 
-  public update = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  public update = async (req: Request, res: Response, next: NextFunction): Promise<Response | undefined> => {
     try {
       const { id } = req.params
       const user = req.body
       const updatedUser = await this._service.update(id, user)
 
-      res.status(200).json(updatedUser)
+      return res.status(200).json(updatedUser)
     } catch (error) {
       next(error)
     }

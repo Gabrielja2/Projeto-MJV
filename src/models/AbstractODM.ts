@@ -1,7 +1,5 @@
 import { type Model, model, models, type Schema, isValidObjectId } from 'mongoose'
 import CustomError from '../utils/customError'
-import { type IUser } from '../interfaces/user.interface'
-import { type IJuice } from '../interfaces/juice.interface'
 
 abstract class AbstractODM<T> {
   protected model: Model<T>
@@ -32,7 +30,7 @@ abstract class AbstractODM<T> {
     return await this.model.findById(id)
   }
 
-  public async updateById(id: string, body: Partial<IUser> | Partial<IJuice>): Promise<T | null> {
+  public async updateById(id: string, body: Partial<T>): Promise<T | null> {
     if (!isValidObjectId(id)) throw new CustomError(422, 'Invalid mongo id')
     return await this.model.findByIdAndUpdate(id, { ...body }, { new: true })
   }

@@ -1,14 +1,14 @@
 import Juice from '../domains/juice'
+import { type IJuice } from '../interfaces/juice.interface'
 import type JuiceODM from '../models/juiceODM'
 import CustomError from '../utils/customError'
-import { type IJuice } from '../interfaces/juice.interface'
 
 export default class JuiceService {
   constructor(
     private readonly juiceODM: JuiceODM
   ) { }
 
-  public create = async (juice: Juice): Promise<Juice | null> => {
+  public create = async (juice: IJuice): Promise<Juice> => {
     const hasJuice = await this.juiceODM.findOne({
       flavor: juice.flavor,
       size: juice.size
@@ -27,13 +27,13 @@ export default class JuiceService {
     return new Juice(createdJuice)
   }
 
-  public getAll = async (): Promise<IJuice[] | null> => {
+  public getAll = async (): Promise<Juice[]> => {
     const juices = await this.juiceODM.getAll()
 
     return juices.map((juice) => new Juice(juice))
   }
 
-  public update = async (id: string, juice: Juice): Promise<Juice | { message: string }> => {
+  public update = async (id: string, juice: IJuice): Promise<Juice> => {
     const updatedJuice = await this.juiceODM.updateById(id, juice)
     if (updatedJuice) {
       return new Juice(updatedJuice)
@@ -52,7 +52,7 @@ export default class JuiceService {
     throw new CustomError(404, 'Juice not found')
   }
 
-  public getById = async (id: string): Promise<Juice | null> => {
+  public getById = async (id: string): Promise<Juice> => {
     const juice = await this.juiceODM.getById(id)
 
     if (juice) {
