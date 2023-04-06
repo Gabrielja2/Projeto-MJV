@@ -6,7 +6,8 @@ export default class JuiceController {
 
   public create = async (req: Request, res: Response, next: NextFunction): Promise<Response | undefined> => {
     try {
-      const newJuice = await this._service.create(req.body)
+      const juice = req.body
+      const newJuice = await this._service.create(juice)
 
       return res.status(201).json(newJuice)
     } catch (error) {
@@ -37,7 +38,8 @@ export default class JuiceController {
   public update = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const { id } = req.params
-      const updatedJuice = await this._service.update(id, req.body)
+      const juice = req.body
+      const updatedJuice = await this._service.update(id, juice)
 
       res.status(200).json(updatedJuice)
     } catch (error) {

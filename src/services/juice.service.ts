@@ -30,11 +30,11 @@ export default class JuiceService {
   public getAll = async (): Promise<IJuice[] | null> => {
     const juices = await this.juiceODM.getAll()
 
-    return juices
+    return juices.map((juice) => new Juice(juice))
   }
 
-  public update = async (id: string, { flavor, description, size, price }: IJuice): Promise<Juice | { message: string }> => {
-    const updatedJuice = await this.juiceODM.updateById(id, { flavor, description, size, price })
+  public update = async (id: string, juice: Juice): Promise<Juice | { message: string }> => {
+    const updatedJuice = await this.juiceODM.updateById(id, juice)
     if (updatedJuice) {
       return new Juice(updatedJuice)
     }
@@ -55,9 +55,10 @@ export default class JuiceService {
   public getById = async (id: string): Promise<Juice | null> => {
     const juice = await this.juiceODM.getById(id)
 
-    if (!juice) {
-      throw new CustomError(404, 'Juice not found')
+    if (juice) {
+      return new Juice(juice)
     }
-    return new Juice(juice)
+
+    throw new CustomError(404, 'Juice not found')
   }
 };

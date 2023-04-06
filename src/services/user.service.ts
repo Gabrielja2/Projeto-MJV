@@ -74,10 +74,9 @@ export default class UserService {
   public async getById(id: string): Promise<User> {
     const user = await this.userODM.getById(id)
 
-    if (!user) {
-      throw new CustomError(404, 'User not found')
+    if (user) {
+      return new User(user)
     }
-
-    return new User(user)
+    throw new CustomError(404, 'User not found')
   }
 };
