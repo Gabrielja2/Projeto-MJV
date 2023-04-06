@@ -2,11 +2,7 @@ import { type Request, type Response, type NextFunction } from 'express'
 import type JuiceService from '../services/juice.service'
 
 export default class JuiceController {
-  private readonly _service: JuiceService
-
-  constructor(service: JuiceService) {
-    this._service = service
-  }
+  constructor(private readonly _service: JuiceService) { }
 
   public create = async (req: Request, res: Response, next: NextFunction): Promise<Response | undefined> => {
     try {
@@ -18,9 +14,9 @@ export default class JuiceController {
     }
   }
 
-  public show = async (_req: Request, res: Response, next: NextFunction): Promise<Response | undefined> => {
+  public getAll = async (_req: Request, res: Response, next: NextFunction): Promise<Response | undefined> => {
     try {
-      const juices = await this._service.show()
+      const juices = await this._service.getAll()
 
       return res.status(200).json(juices)
     } catch (error) {
@@ -49,10 +45,10 @@ export default class JuiceController {
     }
   }
 
-  public showOne = async (req: Request, res: Response, next: NextFunction): Promise<Response | undefined> => {
+  public getById = async (req: Request, res: Response, next: NextFunction): Promise<Response | undefined> => {
     try {
       const { id } = req.params
-      const juice = await this._service.showOne(id)
+      const juice = await this._service.getById(id)
 
       return res.status(200).json(juice)
     } catch (error) {

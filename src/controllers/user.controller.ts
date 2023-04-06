@@ -2,15 +2,12 @@ import { type Request, type Response, type NextFunction } from 'express'
 import type UserService from '../services/user.service'
 
 export default class UserController {
-  private readonly _service: UserService
-
-  constructor(service: UserService) {
-    this._service = service
-  }
+  constructor(private readonly _service: UserService) { }
 
   public login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const token = await this._service.login(req.body)
+      const { email, password } = req.body
+      const token = await this._service.login(email, password)
 
       res.status(200).json({ token })
     } catch (error) {
@@ -20,7 +17,8 @@ export default class UserController {
 
   public create = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const newUser = await this._service.create(req.body)
+      const user = req.body
+      const newUser = await this._service.create(user)
 
       res.status(201).json(newUser)
     } catch (error) {
@@ -28,9 +26,9 @@ export default class UserController {
     }
   }
 
-  public show = async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
+  public getAll = async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const users = await this._service.show()
+      const users = await this._service.getAll()
 
       res.status(200).json(users)
     } catch (error) {
@@ -41,8 +39,8 @@ export default class UserController {
   public update = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const { id } = req.params
-      const { username, email } = req.body
-      const updatedUser = await this._service.update(id, username, email)
+      const user = req.body
+      const updatedUser = await this._service.update(id, user)
 
       res.status(200).json(updatedUser)
     } catch (error) {
@@ -60,10 +58,10 @@ export default class UserController {
     }
   }
 
-  public showOne = async (req: Request, res: Response, next: NextFunction): Promise<Response | undefined> => {
+  public getById = async (req: Request, res: Response, next: NextFunction): Promise<Response | undefined> => {
     try {
       const { id } = req.params
-      const user = await this._service.showOne(id)
+      const user = await this._service.getById(id)
 
       return res.status(200).json(user)
     } catch (error) {

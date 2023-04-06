@@ -1,71 +1,83 @@
 import User from '../domains/user'
-import { type ILogin } from '../interfaces/login.interface'
-import { type IUser } from '../interfaces/user.interface'
-import UserODM from '../models/userODM'
+import type UserODM from '../models/userODM'
 import CustomError from '../utils/customError'
 import generateToken from '../utils/tokenGenerate'
 import bcrypt from 'bcrypt'
 import { type SignOptions } from 'jsonwebtoken'
 
 export default class UserService {
-  private readonly createUserODM = new UserODM()
+  constructor(
+    private readonly userODM: UserODM
+  ) { }
 
-  private readonly createUserDomain = (user: IUser): User | null => {
-    if (user) return new User(user)
-    return null
-  }
+  public async login(email: string, password: string): Promise<SignOptions> {
+    const user = await this.userODM.findOne({ email })
 
-  public login = async ({ email, password }: ILogin): Promise<SignOptions> => {
-    const hasUser = await this.createUserODM.findOne({ email })
-    if (!hasUser) throw new CustomError(404, 'User not found')
+    if (!user) {
+      throw new CustomError(404, 'User not found')
+    }
 
-    const isPasswordValid = await bcrypt.compare(password, hasUser.password)
+    const isPasswordValid = await bcrypt.compare(password, user.password)
+
     if (!isPasswordValid) {
       throw new CustomError(400, 'Invalid password')
     }
-    const token = generateToken(hasUser)
+
+    const token = generateToken(user)
+
     return token
   }
 
-  public create = async ({ email, username, password }: IUser): Promise<User | null> => {
-    const hasUser = await this.createUserODM.findOne({ email })
+  public async create(user: User): Promise<User> {
+    const hasUser = await this.userODM.findOne({ email: user.email })
 
-    if (hasUser) throw new CustomError(409, 'User already registered')
+    if (hasUser) {
+      throw new CustomError(409, 'User already registered')
+    }
 
-    const user = await this.createUserODM.create({ email, username, password, role: 'customer' })
-    return this.createUserDomain(user)
+    const createdUser = await this.userODM.create({
+      email: user.email,
+      username: user.username,
+      password: user.password,
+      role: 'customer'
+    })
+
+    return new User(createdUser)
   }
 
-  public show = async (): Promise<IUser[] | null> => {
-    return await this.createUserODM.getAll()
+  public async getAll(): Promise<User[]> {
+    const users = await this.userODM.getAll()
+
+    return users.map((user) => new User(user))
   }
 
-  public update = async (id: string, username: string, email: string): Promise<User | { message: string }> => {
-    const updatedUser = await this.createUserODM.updateById(id, { username, email })
+  public async update(id: string, user: User): Promise<User> {
+    const updatedUser = await this.userODM.updateById(id, user)
+
     if (updatedUser) {
-      this.createUserDomain(updatedUser)
-      return { message: 'User updated' }
+      return new User(updatedUser)
     }
     throw new CustomError(404, 'User not found')
   }
 
-  public delete = async (id: string): Promise<{ message: string }> => {
-    const user = await this.createUserODM.getById(id)
+  public async delete(id: string): Promise<{ message: string }> {
+    const user = await this.userODM.getById(id)
 
     if (user) {
-      await this.createUserODM.deleteById(id)
+      await this.userODM.deleteById(id)
       return { message: 'User deleted successfully' }
     }
 
     throw new CustomError(404, 'User not found')
   }
 
-  public showOne = async (id: string): Promise<User | null> => {
-    const user = await this.createUserODM.getById(id)
+  public async getById(id: string): Promise<User> {
+    const user = await this.userODM.getById(id)
 
     if (!user) {
       throw new CustomError(404, 'User not found')
     }
-    return this.createUserDomain(user)
+
+    return new User(user)
   }
 };

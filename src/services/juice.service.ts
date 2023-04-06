@@ -1,55 +1,63 @@
 import Juice from '../domains/juice'
-import JuiceODM from '../models/juiceODM'
+import type JuiceODM from '../models/juiceODM'
 import CustomError from '../utils/customError'
 import { type IJuice } from '../interfaces/juice.interface'
 
 export default class JuiceService {
-  private readonly createJuiceODM = new JuiceODM()
+  constructor(
+    private readonly juiceODM: JuiceODM
+  ) { }
 
-  private readonly createJuiceDomain = (juice: IJuice): Juice | null => {
-    if (juice) return new Juice(juice)
-    return null
+  public create = async (juice: Juice): Promise<Juice | null> => {
+    const hasJuice = await this.juiceODM.findOne({
+      flavor: juice.flavor,
+      size: juice.size
+    })
+
+    if (hasJuice) {
+      throw new CustomError(409, 'Juice already registered')
+    }
+
+    const createdJuice = await this.juiceODM.create({
+      flavor: juice.flavor,
+      size: juice.size,
+      price: juice.price,
+      description: juice.description
+    })
+    return new Juice(createdJuice)
   }
 
-  public create = async ({ flavor, size, price, description }: IJuice): Promise<Juice | null> => {
-    const hasJuice = await this.createJuiceODM.findOne({ flavor, size })
+  public getAll = async (): Promise<IJuice[] | null> => {
+    const juices = await this.juiceODM.getAll()
 
-    if (hasJuice) throw new CustomError(409, 'Juice already registered')
-
-    const juice = await this.createJuiceODM.create({ flavor, size, price, description })
-    return this.createJuiceDomain(juice)
-  }
-
-  public show = async (): Promise<IJuice[] | null> => {
-    return await this.createJuiceODM.getAll()
+    return juices
   }
 
   public update = async (id: string, { flavor, description, size, price }: IJuice): Promise<Juice | { message: string }> => {
-    const updatedJuice = await this.createJuiceODM.updateById(id, { flavor, description, size, price })
+    const updatedJuice = await this.juiceODM.updateById(id, { flavor, description, size, price })
     if (updatedJuice) {
-      this.createJuiceDomain(updatedJuice)
-      return { message: 'Juice updated' }
+      return new Juice(updatedJuice)
     }
     throw new CustomError(404, 'Juice not found')
   }
 
   public delete = async (id: string): Promise<{ message: string }> => {
-    const juice = await this.createJuiceODM.getById(id)
+    const juice = await this.juiceODM.getById(id)
 
     if (juice) {
-      await this.createJuiceODM.deleteById(id)
+      await this.juiceODM.deleteById(id)
       return { message: 'Juice deleted successfully' }
     }
 
     throw new CustomError(404, 'Juice not found')
   }
 
-  public showOne = async (id: string): Promise<Juice | null> => {
-    const juice = await this.createJuiceODM.getById(id)
+  public getById = async (id: string): Promise<Juice | null> => {
+    const juice = await this.juiceODM.getById(id)
 
     if (!juice) {
       throw new CustomError(404, 'Juice not found')
     }
-    return this.createJuiceDomain(juice)
+    return new Juice(juice)
   }
 };
