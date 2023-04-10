@@ -20,13 +20,12 @@ O projeto é composto de 3 entidades importantes para sua estrutura:
   - Tem o papel de fornecer dados para o serviço de _backend_.
 
 2️⃣ **Back-end:**
- - Será o ambiente que você realizará a maior parte das implementações exigidas.
- - Deve rodar na porta `3001`, pois o front-end faz requisições para ele nessa porta por padrão;
- - Sua aplicação vai ser inicializada a partir do arquivo `src/server.ts`; 
+ - Deve rodar na porta `3030`,
+ - A aplicação é inicializada a partir do arquivo `src/server.ts`; 
 
 3️⃣ **Docker:**
   - O `docker-compose` tem a responsabilidade de unir todos os serviços conteinerizados (backend e db) e subir a API completa com o comando `docker-compose up -d`;
-  - Você deve  **verificar** se a configuração do `Dockerfile` está correta nas raíz do `PROJETO-MJV`, para conseguir inicializar a aplicação;
+  - Você deve **verificar** se a porta `3030`está disponivel.
 
 </details><br />
 

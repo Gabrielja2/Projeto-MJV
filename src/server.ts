@@ -2,7 +2,7 @@ import 'dotenv/config'
 import app from './app'
 import connectToDatabase from './config/connection'
 
-const PORT = process.env.PORT ? process.env.PORT : 3000
+const PORT = process.env.PORT ? process.env.PORT : 3030
 connectToDatabase()
   .then(() => {
     app.listen(PORT, () => { console.log(`Running server on port: ${PORT}`) })
