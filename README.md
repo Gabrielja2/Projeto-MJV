@@ -1,6 +1,6 @@
 # Sejam bem vindos ao repositório API Loja de Sucos
 
-Este projeto foi completamente desenvolvido em TypeScript, utilizando Node.js, Express, Cors, Mongoose, MongoDB e outras bibliotecas auxiliares como Joi, bcrypt e Docker. 🚀
+Este projeto foi completamente desenvolvido em TypeScript, utilizando Node.js, Express, Cors, Mongoose, MongoDB e outras bibliotecas auxiliares como Joi, jsonwebtoken, bcrypt e Docker. 🚀
 
 Esta API foi desenvolvida seguindo o paradigma de programação orientada a objetos, aderindo aos princípios do SOLID e seguindo uma arquitetura composta por uma camada adicional, conhecida como Domain, que foi previamente definida antes do início do desenvolvimento do projeto, para assegurar a manutenção e respeito a esses princípios.
 
@@ -118,11 +118,11 @@ As rotas a seguir exigem autenticação utilizando o token gerado no processo de
 </details><br />
 
 <details>
-<summary><strong>Rota listar um usuário</strong></summary>
+<summary><strong>Rota de detalhes de um usuário</strong></summary>
 
 * Método: GET
 * URL: /user/:id
-* Descrição: Retorna as informações do usuário.
+* Descrição: Retorna os detalhes de um usuário específico pelo seu ID.
 * Resposta de sucesso:
   * Código: 200
   * Corpo: Objeto contendo as informações do usuário.
