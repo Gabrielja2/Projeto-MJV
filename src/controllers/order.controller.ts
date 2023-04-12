@@ -35,4 +35,26 @@ export default class UserController {
       next(error)
     }
   }
+
+  public update = async (req: Request, res: Response, next: NextFunction): Promise<Response | undefined> => {
+    try {
+      const { id } = req.params
+      const order = req.body
+      const updatedOrder = await this._service.update(id, order)
+
+      return res.status(200).json(updatedOrder)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  public delete = async (req: Request, res: Response, next: NextFunction): Promise<Response | undefined> => {
+    try {
+      const { id } = req.params
+      const message = await this._service.delete(id)
+      return res.status(200).json(message)
+    } catch (error) {
+      next(error)
+    }
+  }
 };

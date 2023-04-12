@@ -21,4 +21,22 @@ const orderSchema = Joi.object({
   })
 })
 
+export const orderSchemaUpdate = Joi.object({
+  flavor: Joi.string().min(3).messages({
+    'string.empty': 'Flavor field can not be empty',
+    'string.min': 'Must have at least 3 characters'
+
+  }),
+  quantity: Joi.number().integer().min(1).messages({
+    'number.base': 'Quantity must be a number',
+    'number.integer': 'Quantity must be an integer',
+    'number.min': 'Quantity must be at least 1'
+  }),
+  size: Joi.string().min(6).messages({
+    'string.empty': 'Size field can not be empty',
+    'string.min': 'Must have at least 6 characters'
+
+  })
+})
+
 export default orderSchema

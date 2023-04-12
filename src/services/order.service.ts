@@ -39,4 +39,38 @@ export default class OrderService {
     const orders = await this.orderODM.getOrdersByUser(username)
     return orders
   }
+
+  public async update(id: string, order: IOrder): Promise<Order> {
+    const existingOrder = await this.orderODM.getById(id)
+    if (!existingOrder) throw new CustomError(400, 'Order not found')
+
+    const juice = await this.juiceODM.findOne({ flavor: order.flavor, size: order.size })
+    if (!juice) throw new CustomError(404, 'Juice not found')
+
+    const totalPrice = this.calculateTotalPrice(juice, order.quantity)
+
+    Object.assign(existingOrder, {
+      flavor: order.flavor,
+      quantity: order.quantity,
+      size: order.size,
+      price: juice.price,
+      total_price: totalPrice
+    })
+
+    const updatedOrder = await this.orderODM.updateById(id, existingOrder)
+    if (updatedOrder) return new Order(updatedOrder)
+
+    throw new CustomError(404, 'Order not found')
+  }
+
+  public async delete(id: string): Promise<{ message: string }> {
+    const order = await this.orderODM.getById(id)
+
+    if (order) {
+      await this.orderODM.deleteById(id)
+      return { message: 'Order deleted successfully' }
+    }
+
+    throw new CustomError(404, 'Order not found')
+  }
 }
