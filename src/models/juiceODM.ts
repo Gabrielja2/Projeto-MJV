@@ -32,6 +32,12 @@ class JuiceODM extends AbstractODM<IJuice> {
     const count = await this.model.countDocuments()
     return count
   }
+
+  public async getJuicesByFlavor(flavor: string): Promise<IJuice[]> {
+    const ordersByUser = await this.model.find({ flavor })
+
+    return ordersByUser
+  }
 }
 
 export default JuiceODM
