@@ -1,6 +1,7 @@
 import AbstractODM from './AbstractODM'
 import { type IOrder } from '../interfaces/order.interface'
 import { Schema } from 'mongoose'
+import moment from 'moment'
 
 class OrderODM extends AbstractODM<IOrder> {
   constructor() {
@@ -30,12 +31,22 @@ class OrderODM extends AbstractODM<IOrder> {
         required: true
       },
       created_at: {
-        type: Date,
-        default: Date.now
+        type: String,
+        default: moment().format('DD/MM/YYYY HH:mm:ss')
+      },
+      updated_at: {
+        type: String,
+        default: moment().format('DD/MM/YYYY HH:mm:ss')
       }
     }, { versionKey: false })
 
     super(schema, 'Order')
+  }
+
+  public async getOrdersByUser(username: string): Promise<IOrder[]> {
+    const ordersByUser = await this.model.find({ username })
+
+    return ordersByUser
   }
 }
 

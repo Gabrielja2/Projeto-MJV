@@ -1,6 +1,7 @@
 import AbstractODM from './AbstractODM'
 import { type IJuice } from '../interfaces/juice.interface'
 import { Schema } from 'mongoose'
+import moment from 'moment'
 
 class JuiceODM extends AbstractODM<IJuice> {
   constructor() {
@@ -8,7 +9,15 @@ class JuiceODM extends AbstractODM<IJuice> {
       flavor: { type: String, required: true },
       size: { type: String, required: true },
       price: { type: Number, required: true },
-      description: { type: String, required: true }
+      description: { type: String, required: true },
+      created_at: {
+        type: String,
+        default: moment().format('DD/MM/YYYY HH:mm:ss')
+      },
+      updated_at: {
+        type: String,
+        default: moment().format('DD/MM/YYYY HH:mm:ss')
+      }
     }, { versionKey: false })
 
     super(schema, 'Juice')

@@ -8,6 +8,7 @@ export default class Order {
   protected price: number
   protected total_price: number
   protected created_at?: Date
+  protected updated_at?: Date
 
   constructor(order: IOrder) {
     this.id = order.id
@@ -17,6 +18,7 @@ export default class Order {
     this.price = order.price
     this.total_price = order.total_price
     this.created_at = order.created_at
+    this.updated_at = order.updated_at
   }
 
   get _id(): string | undefined {
@@ -73,5 +75,13 @@ export default class Order {
 
   set _created_at(value: Date | undefined) {
     this.created_at = value
+  }
+
+  get _updated_at(): Date | undefined {
+    return this.updated_at
+  }
+
+  set _updated_at(value: Date | undefined) {
+    this.updated_at = value
   }
 }

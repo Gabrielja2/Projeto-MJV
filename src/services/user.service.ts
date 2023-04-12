@@ -29,9 +29,10 @@ export default class UserService {
   }
 
   public async create(user: IUser): Promise<User> {
-    const hasUser = await this.userODM.findOne({ email: user.email })
+    const hasUserByEmail = await this.userODM.findOne({ email: user.email })
+    const hasUserByName = await this.userODM.findOne({ username: user.username })
 
-    if (hasUser) {
+    if (hasUserByEmail ?? hasUserByName) {
       throw new CustomError(409, 'User already registered')
     }
 
@@ -52,7 +53,12 @@ export default class UserService {
   }
 
   public async update(id: string, user: IUser): Promise<User> {
-    const updatedUser = await this.userODM.updateById(id, user)
+    const hasUserByName = await this.userODM.getById(id)
+
+    if (user.username === hasUserByName?.username) throw new CustomError(400, 'Username already in use')
+    const updatedUser = await this.userODM.updateById(id, { username: user.username, email: user.email })
+
+    if (user.email === hasUserByName?.email) throw new CustomError(400, 'Email already in use')
 
     if (updatedUser) {
       return new User(updatedUser)

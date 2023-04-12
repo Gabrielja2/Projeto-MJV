@@ -9,9 +9,10 @@ export default class JuiceService {
   ) { }
 
   public async create(user: IUser): Promise<User> {
-    const hasUser = await this.userODM.findOne({ email: user.email })
+    const hasUserByEmail = await this.userODM.findOne({ email: user.email })
+    const hasUserByName = await this.userODM.findOne({ username: user.username })
 
-    if (hasUser) {
+    if (hasUserByEmail ?? hasUserByName) {
       throw new CustomError(409, 'User already registered')
     }
 

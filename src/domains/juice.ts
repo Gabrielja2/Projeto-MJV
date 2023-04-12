@@ -6,6 +6,8 @@ export default class Juice {
   protected size: string
   protected price: number
   protected description: string
+  protected created_at?: Date
+  protected updated_at?: Date
 
   constructor(juice: IJuice) {
     this.id = juice.id
@@ -13,6 +15,8 @@ export default class Juice {
     this.size = juice.size
     this.price = juice.price
     this.description = juice.description
+    this.created_at = juice.created_at
+    this.updated_at = juice.updated_at
   }
 
   get _id(): string | undefined {
@@ -53,5 +57,21 @@ export default class Juice {
 
   set _description(value: string) {
     this.description = value
+  }
+
+  get _created_at(): Date | undefined {
+    return this.created_at
+  }
+
+  set _created_at(value: Date | undefined) {
+    this.created_at = value
+  }
+
+  get _updated_at(): Date | undefined {
+    return this.updated_at
+  }
+
+  set _updated_at(value: Date | undefined) {
+    this.updated_at = value
   }
 }

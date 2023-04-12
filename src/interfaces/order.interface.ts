@@ -7,4 +7,5 @@ export interface IOrder {
   price: number
   total_price: number
   created_at?: Date
+  updated_at?: Date
 }

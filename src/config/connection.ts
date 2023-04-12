@@ -24,7 +24,7 @@ const init = async (): Promise<void> => {
         password: 'Admin123',
         role: 'admin'
       })
-      console.log('Documento de usuário inserido com sucesso!')
+      console.log('Usuário com username: "admin", email: "admin@admin.com" e password: "Admin123" inserido com sucesso!')
     }
 
     if (juiceCount === 0) {
