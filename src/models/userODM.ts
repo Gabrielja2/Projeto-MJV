@@ -2,7 +2,7 @@ import AbstractODM from './AbstractODM'
 import { type IUser } from '../interfaces/user.interface'
 import { Schema } from 'mongoose'
 import { hash } from 'bcrypt'
-import moment from 'moment'
+import moment from 'moment-timezone'
 
 class UserODM extends AbstractODM<IUser> {
   constructor() {
@@ -13,11 +13,11 @@ class UserODM extends AbstractODM<IUser> {
       role: { type: String, required: true },
       created_at: {
         type: String,
-        default: moment().format('DD/MM/YYYY HH:mm:ss')
+        default: moment().tz('America/Sao_Paulo').format('DD/MM/YYYY HH:mm:ss')
       },
       updated_at: {
         type: String,
-        default: moment().format('DD/MM/YYYY HH:mm:ss')
+        default: moment().tz('America/Sao_Paulo').format('DD/MM/YYYY HH:mm:ss')
       }
     }, { versionKey: false })
 
