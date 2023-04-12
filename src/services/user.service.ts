@@ -4,14 +4,13 @@ import type UserODM from '../models/userODM'
 import CustomError from '../utils/customError'
 import generateToken from '../utils/tokenGenerate'
 import bcrypt from 'bcrypt'
-import { type SignOptions } from 'jsonwebtoken'
 
 export default class UserService {
   constructor(
     private readonly userODM: UserODM
   ) { }
 
-  public async login(email: string, password: string): Promise<SignOptions> {
+  public async login(email: string, password: string): Promise<string> {
     const user = await this.userODM.findOne({ email })
 
     if (!user) {

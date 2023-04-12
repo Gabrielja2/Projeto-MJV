@@ -1,17 +1,17 @@
-import { verify, sign, type JwtPayload, type SignOptions } from 'jsonwebtoken'
-import { type ILogin } from '../interfaces/login.interface'
+import { verify, sign, type JwtPayload } from 'jsonwebtoken'
 import CustomError from './customError'
 import fs from 'fs'
 import path from 'path'
+import { type IUser } from '../interfaces/user.interface'
 
 const jwtKey = fs.readFileSync(path.resolve(__dirname, '../../jwt.evaluation.key'), 'utf-8')
 
-const generateToken = (payload: ILogin): SignOptions => {
+const generateToken = (payload: Partial<IUser>): string => {
   const jwtconfig = {
     expiresIn: '1h'
   }
 
-  const token = sign({ payload }, jwtKey, jwtconfig) as SignOptions
+  const token = sign({ payload }, jwtKey, jwtconfig)
   return token
 }
 

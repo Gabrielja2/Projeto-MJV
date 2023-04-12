@@ -13,6 +13,16 @@ class JuiceODM extends AbstractODM<IJuice> {
 
     super(schema, 'Juice')
   }
+
+  public async insertMany(juices: IJuice[]): Promise<IJuice[]> {
+    const newJuices = await this.model.insertMany(juices)
+    return newJuices
+  }
+
+  public async countJuices(): Promise<number> {
+    const count = await this.model.countDocuments()
+    return count
+  }
 }
 
 export default JuiceODM

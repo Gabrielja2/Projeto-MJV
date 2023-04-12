@@ -22,6 +22,16 @@ class UserODM extends AbstractODM<IUser> {
 
     super(schema, 'User')
   }
+
+  public async insertUser(user: IUser): Promise<IUser> {
+    const newUser = await this.model.create(user)
+    return newUser
+  }
+
+  public async countUsers(): Promise<number> {
+    const count = await this.model.countDocuments()
+    return count
+  }
 }
 
 export default UserODM
