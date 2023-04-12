@@ -32,4 +32,11 @@ export default class OrderService {
     const orders = await this.orderODM.getAll()
     return orders.map((order) => new Order(order))
   }
+
+  public getOrderByUser = async (user: any): Promise<any> => {
+    const { username } = user
+
+    const orders = await this.orderODM.getOrdersByUser(username)
+    return orders
+  }
 }

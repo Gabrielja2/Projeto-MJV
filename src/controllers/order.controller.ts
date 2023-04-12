@@ -24,4 +24,15 @@ export default class UserController {
       next(error)
     }
   }
+
+  public getOrderByUser = async (_req: Request, res: Response, next: NextFunction): Promise<Response | undefined> => {
+    try {
+      const user = res.locals.user.payload
+      const order = await this._service.getOrderByUser(user)
+
+      return res.status(200).json(order)
+    } catch (error) {
+      next(error)
+    }
+  }
 };

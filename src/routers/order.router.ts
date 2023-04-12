@@ -13,5 +13,6 @@ const orderController = new OrderController(orderService)
 
 orderRouter.post('/', orderMiddleware, orderController.create)
 orderRouter.get('/', orderController.getAll)
+orderRouter.get('/:id', orderController.getOrderByUser)
 
 export default orderRouter
