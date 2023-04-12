@@ -9,8 +9,8 @@ import authMiddleware from '../middlewares/auth.middleware'
 const router = Router()
 router.use('/health', healthRouter)
 router.use('/user', userRouter)
+router.use('/admin', authMiddleware, adminRouter)
 router.use('/juice', authMiddleware, juiceRouter)
 router.use('/order', authMiddleware, orderRouter)
-router.use('/admin', authMiddleware, adminRouter)
 
 export default router

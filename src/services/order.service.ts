@@ -4,11 +4,13 @@ import Order from '../domains/order'
 import type OrderODM from '../models/orderODM'
 import type JuiceODM from '../models/juiceODM'
 import CustomError from '../utils/customError'
+import type UserODM from '../models/userODM'
 
 export default class OrderService {
   constructor(
     private readonly orderODM: OrderODM,
-    private readonly juiceODM: JuiceODM
+    private readonly juiceODM: JuiceODM,
+    private readonly userODM: UserODM
   ) { }
 
   private readonly calculateTotalPrice = (juice: IJuice, quantity: number): number => {
@@ -33,11 +35,20 @@ export default class OrderService {
     return orders.map((order) => new Order(order))
   }
 
-  public getOrderByUser = async (user: any): Promise<any> => {
-    const { username } = user
+  public getById = async (id: string): Promise<Order> => {
+    const order = await this.orderODM.getById(id)
 
-    const orders = await this.orderODM.getOrdersByUser(username)
-    return orders
+    return new Order(order as any)
+  }
+
+  public getOrderByUser = async (id: string): Promise<IOrder[]> => {
+    const user = await this.userODM.getById(id)
+
+    if (user) {
+      const orders = await this.orderODM.getOrdersByUser(user.username)
+      return orders
+    }
+    throw new CustomError(404, 'User not found')
   }
 
   public async update(id: string, order: IOrder): Promise<Order> {

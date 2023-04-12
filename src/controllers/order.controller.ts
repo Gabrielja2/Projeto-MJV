@@ -25,11 +25,21 @@ export default class UserController {
     }
   }
 
-  public getOrderByUser = async (_req: Request, res: Response, next: NextFunction): Promise<Response | undefined> => {
+  public getById = async (req: Request, res: Response, next: NextFunction): Promise<Response | undefined> => {
     try {
-      const user = res.locals.user.payload
-      const order = await this._service.getOrderByUser(user)
+      const { id } = req.params
+      const orders = await this._service.getById(id)
 
+      return res.status(200).json(orders)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  public getOrderByUser = async (req: Request, res: Response, next: NextFunction): Promise<Response | undefined> => {
+    try {
+      const { id } = req.params
+      const order = await this._service.getOrderByUser(id)
       return res.status(200).json(order)
     } catch (error) {
       next(error)
