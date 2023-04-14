@@ -50,7 +50,7 @@ describe('/user endpoint', () => {
       expect(response.body).to.haveOwnProperty('token')
     })
 
-    it('Verifica se retorna a mensagem correta caso o campo email não seja um email válido', async () => {
+    it('should return correct message when email field its not valid email', async () => {
       const response = await chai
         .request(app)
         .post('/user/login')
@@ -63,7 +63,7 @@ describe('/user endpoint', () => {
       expect(response.body).to.be.deep.equal({ message: 'Must be a valid email address' })
     })
 
-    it('Verifica se retorna a mensagem correta caso o campo email não seja fornecido', async () => {
+    it('should return correct message when email field is not provided', async () => {
       const response = await chai
         .request(app)
         .post('/user/login')
@@ -75,7 +75,7 @@ describe('/user endpoint', () => {
       expect(response.body).to.be.deep.equal({ message: 'Email field is required' })
     })
 
-    it('Verifica se retorna a mensagem correta caso o password não tenha pelo menos 8 caracteres', async () => {
+    it('should return the correct message if the password is not at least 8 characters long', async () => {
       const response = await chai
         .request(app)
         .post('/user/login')
@@ -88,7 +88,7 @@ describe('/user endpoint', () => {
       expect(response.body).to.be.deep.equal({ message: 'Must have at least 8 characters' })
     })
 
-    it('Verifica se retorna a mensagem correta caso o password não tenha pelo menos 1 caractere normal e 1 Uppercase', async () => {
+    it('should return the correct message if the password does not have at least 1 Uppercase and 1 lowercase letter', async () => {
       const response = await chai
         .request(app)
         .post('/user/login')
@@ -101,7 +101,7 @@ describe('/user endpoint', () => {
       expect(response.body).to.be.deep.equal({ message: 'Must have at least one uppercase character and a number' })
     })
 
-    it('Verifica se retorna a mensagem correta caso o campo password não seja fornecido', async () => {
+    it('should return correct message when password field is not provided', async () => {
       const response = await chai
         .request(app)
         .post('/user/login')
@@ -128,21 +128,7 @@ describe('/user endpoint', () => {
       expect(response.body).to.be.deep.equal(validRegisterResponse)
     })
 
-    it('Verifica se retorna a mensagem correta caso o campo email não seja fornecido', async () => {
-      const response = await chai
-        .request(app)
-        .post('/user/register')
-        .send({
-          password: 'Testando123',
-          username: 'test'
-
-        })
-
-      expect(response.status).to.be.equal(400)
-      expect(response.body).to.be.deep.equal({ message: 'Email field is required' })
-    })
-
-    it('Verifica se retorna a mensagem correta caso o campo email não seja um email válido', async () => {
+    it('should return correct message when email field its not valid email', async () => {
       const response = await chai
         .request(app)
         .post('/user/register')
@@ -156,7 +142,21 @@ describe('/user endpoint', () => {
       expect(response.body).to.be.deep.equal({ message: 'Must be a valid email address' })
     })
 
-    it('Verifica se retorna a mensagem correta caso o password não tenha pelo menos 8 caracteres', async () => {
+    it('should return correct message when email field is not provided', async () => {
+      const response = await chai
+        .request(app)
+        .post('/user/register')
+        .send({
+          password: 'Testando123',
+          username: 'test'
+
+        })
+
+      expect(response.status).to.be.equal(400)
+      expect(response.body).to.be.deep.equal({ message: 'Email field is required' })
+    })
+
+    it('should return the correct message if the password is not at least 8 characters long', async () => {
       const response = await chai
         .request(app)
         .post('/user/register')
@@ -170,7 +170,7 @@ describe('/user endpoint', () => {
       expect(response.body).to.be.deep.equal({ message: 'Must have at least 8 characters' })
     })
 
-    it('Verifica se retorna a mensagem correta caso o password não tenha pelo menos 1 caractere normal e 1 Uppercase', async () => {
+    it('should return the correct message if the password does not have at least 1 Uppercase and 1 lowercase letter', async () => {
       const response = await chai
         .request(app)
         .post('/user/register')
@@ -184,7 +184,7 @@ describe('/user endpoint', () => {
       expect(response.body).to.be.deep.equal({ message: 'Must have at least one uppercase character and a number' })
     })
 
-    it('Verifica se retorna a mensagem correta caso o campo password não seja fornecido', async () => {
+    it('should return correct message when password field is not provided', async () => {
       const response = await chai
         .request(app)
         .post('/user/register')
@@ -197,7 +197,7 @@ describe('/user endpoint', () => {
       expect(response.body).to.be.deep.equal({ message: 'Password field is required' })
     })
 
-    it('Verifica se retorna a mensagem correta caso o campo username não seja fornecido', async () => {
+    it('should return correct message when username field is not provided', async () => {
       const response = await chai
         .request(app)
         .post('/user/register')
@@ -211,7 +211,7 @@ describe('/user endpoint', () => {
       expect(response.body).to.be.deep.equal({ message: 'Username field is required' })
     })
 
-    it('Verifica se retorna a mensagem correta caso o campo username não tenha pelo menos 3 caracteres', async () => {
+    it('should return the correct message if the username is not at least 3 characters long', async () => {
       const response = await chai
         .request(app)
         .post('/user/register')
