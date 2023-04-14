@@ -116,7 +116,7 @@ describe('/user endpoint', () => {
   })
 
   describe('[POST /user/register', () => {
-    it.only('should return a user if create a newUser successfully', async () => {
+    it('should return a user if create a newUser successfully', async () => {
       sinon.stub(UserService.prototype, 'create').resolves(validRegisterResponse as any)
 
       const response = await chai
