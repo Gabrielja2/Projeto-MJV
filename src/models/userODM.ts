@@ -12,11 +12,11 @@ class UserODM extends AbstractODM<IUser> {
       username: { type: String, required: true },
       role: { type: String, required: true },
       created_at: {
-        type: String,
+        type: String || Date,
         default: moment().tz('America/Sao_Paulo').format('DD/MM/YYYY HH:mm:ss')
       },
       updated_at: {
-        type: String,
+        type: String || Date,
         default: moment().tz('America/Sao_Paulo').format('DD/MM/YYYY HH:mm:ss')
       }
     }, { versionKey: false })

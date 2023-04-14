@@ -6,6 +6,6 @@ export interface IOrder {
   size: string
   price: number
   total_price: number
-  created_at?: Date
-  updated_at?: Date
+  created_at?: string | Date
+  updated_at?: string | Date
 }

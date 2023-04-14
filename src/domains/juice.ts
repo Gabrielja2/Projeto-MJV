@@ -6,8 +6,8 @@ export default class Juice {
   protected size: string
   protected price: number
   protected description: string
-  protected created_at?: Date
-  protected updated_at?: Date
+  protected created_at?: string | Date
+  protected updated_at?: string | Date
 
   constructor(juice: IJuice) {
     this.id = juice.id
@@ -59,19 +59,19 @@ export default class Juice {
     this.description = value
   }
 
-  get _created_at(): Date | undefined {
+  get _created_at(): string | Date | undefined {
     return this.created_at
   }
 
-  set _created_at(value: Date | undefined) {
+  set _created_at(value: string | Date | undefined) {
     this.created_at = value
   }
 
-  get _updated_at(): Date | undefined {
+  get _updated_at(): string | Date | undefined {
     return this.updated_at
   }
 
-  set _updated_at(value: Date | undefined) {
+  set _updated_at(value: string | Date | undefined) {
     this.updated_at = value
   }
 }

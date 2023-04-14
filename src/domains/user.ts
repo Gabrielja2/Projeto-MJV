@@ -6,8 +6,8 @@ export default class User {
   protected password: string
   protected username: string
   protected role: string
-  protected created_at?: Date
-  protected updated_at?: Date
+  protected created_at?: string | Date | undefined
+  protected updated_at?: string | Date | undefined
 
   constructor(user: IUser) {
     this.id = user.id
@@ -59,19 +59,19 @@ export default class User {
     this.role = value
   }
 
-  get _created_at(): Date | undefined {
+  get _created_at(): string | Date | undefined {
     return this.created_at
   }
 
-  set _created_at(value: Date | undefined) {
+  set _created_at(value: string | Date | undefined) {
     this.created_at = value
   }
 
-  get _updated_at(): Date | undefined {
+  get _updated_at(): string | Date | undefined {
     return this.updated_at
   }
 
-  set _updated_at(value: Date | undefined) {
+  set _updated_at(value: string | Date | undefined) {
     this.updated_at = value
   }
 }

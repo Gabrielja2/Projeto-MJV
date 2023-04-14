@@ -6,36 +6,18 @@ import moment from 'moment-timezone'
 class OrderODM extends AbstractODM<IOrder> {
   constructor() {
     const schema = new Schema({
-      username: {
-        type: String,
-        required: true
-      },
-      quantity: {
-        type: Number,
-        required: true
-      },
-      flavor: {
-        type: String,
-        required: true
-      },
-      price: {
-        type: Number,
-        required: true
-      },
-      total_price: {
-        type: Number,
-        required: true
-      },
-      size: {
-        type: String,
-        required: true
-      },
+      username: { type: String, required: true },
+      quantity: { type: Number, required: true },
+      flavor: { type: String, required: true },
+      price: { type: Number, required: true },
+      total_price: { type: Number, required: true },
+      size: { type: String, required: true },
       created_at: {
-        type: String,
+        type: String || Date,
         default: moment().tz('America/Sao_Paulo').format('DD/MM/YYYY HH:mm:ss')
       },
       updated_at: {
-        type: String,
+        type: String || Date,
         default: moment().tz('America/Sao_Paulo').format('DD/MM/YYYY HH:mm:ss')
       }
     }, { versionKey: false })

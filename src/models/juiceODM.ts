@@ -11,11 +11,11 @@ class JuiceODM extends AbstractODM<IJuice> {
       price: { type: Number, required: true },
       description: { type: String, required: true },
       created_at: {
-        type: String,
+        type: String || Date,
         default: moment().tz('America/Sao_Paulo').format('DD/MM/YYYY HH:mm:ss')
       },
       updated_at: {
-        type: String,
+        type: String || Date,
         default: moment().tz('America/Sao_Paulo').format('DD/MM/YYYY HH:mm:ss')
       }
     }, { versionKey: false })

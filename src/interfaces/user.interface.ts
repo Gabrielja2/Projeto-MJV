@@ -4,6 +4,6 @@ export interface IUser {
   password: string
   username: string
   role: string
-  created_at?: Date
-  updated_at?: Date
+  created_at?: string | Date
+  updated_at?: string | Date
 }
