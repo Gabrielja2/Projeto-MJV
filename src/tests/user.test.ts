@@ -1,170 +1,200 @@
 import chai, { expect } from 'chai'
 import chaiHttp from 'chai-http'
+import sinon from 'sinon'
 import app from '../app'
+import UserService from '../services/user.service'
 
 chai.use(chaiHttp)
 
-describe('POST /user/login', () => {
-  it('Verifica se retorna a mensagem correta caso o campo email não seja um email válido', async () => {
-    const response = await chai
-      .request(app)
-      .post('/user/login')
-      .send({
-        email: 'testexample.com',
-        password: 'Testando123'
-      })
+const validLoginMock = {
+  email: 'admin@admin.com',
+  password: 'Admin123'
+}
 
-    expect(response.status).to.be.equal(400)
-    expect(response.body).to.be.deep.equal({ message: 'Must be a valid email address' })
+const validLoginResponse = {
+  token:
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7InJvbGUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIn0sImlhdCI6MTY2NjM3NzY4MiwiZXhwIjoxNjY2NTUwNDgyfQ.PD_TDSPj-EwMFBesgRIuVZH5FyFOGvhrl0W4OpVB0ew'
+}
+
+describe('/user endpoint', () => {
+  beforeEach(() => {
+    sinon.restore()
   })
 
-  it('Verifica se retorna a mensagem correta caso o campo email não seja fornecido', async () => {
-    const response = await chai
-      .request(app)
-      .post('/user/login')
-      .send({
-        password: 'Testando123'
-      })
+  describe('[POST /user/login]', () => {
+    it('should return a token and correct status if login successfully', async () => {
+      sinon.stub(UserService.prototype, 'login').resolves(validLoginResponse.token)
 
-    expect(response.status).to.be.equal(400)
-    expect(response.body).to.be.deep.equal({ message: 'Email field is required' })
+      const response = await chai
+        .request(app)
+        .post('/user/login')
+        .send(validLoginMock)
+
+      expect(response.status).to.be.equal(200)
+      expect(response.body).to.haveOwnProperty('token')
+    })
+
+    it('Verifica se retorna a mensagem correta caso o campo email não seja um email válido', async () => {
+      const response = await chai
+        .request(app)
+        .post('/user/login')
+        .send({
+          email: 'testexample.com',
+          password: 'Testando123'
+        })
+
+      expect(response.status).to.be.equal(400)
+      expect(response.body).to.be.deep.equal({ message: 'Must be a valid email address' })
+    })
+
+    it('Verifica se retorna a mensagem correta caso o campo email não seja fornecido', async () => {
+      const response = await chai
+        .request(app)
+        .post('/user/login')
+        .send({
+          password: 'Testando123'
+        })
+
+      expect(response.status).to.be.equal(400)
+      expect(response.body).to.be.deep.equal({ message: 'Email field is required' })
+    })
+
+    it('Verifica se retorna a mensagem correta caso o password não tenha pelo menos 8 caracteres', async () => {
+      const response = await chai
+        .request(app)
+        .post('/user/login')
+        .send({
+          email: 'test@example.com',
+          password: 'test'
+        })
+
+      expect(response.status).to.be.equal(400)
+      expect(response.body).to.be.deep.equal({ message: 'Must have at least 8 characters' })
+    })
+
+    it('Verifica se retorna a mensagem correta caso o password não tenha pelo menos 1 caractere normal e 1 Uppercase', async () => {
+      const response = await chai
+        .request(app)
+        .post('/user/login')
+        .send({
+          email: 'test@example.com',
+          password: 'testando'
+        })
+
+      expect(response.status).to.be.equal(400)
+      expect(response.body).to.be.deep.equal({ message: 'Must have at least one uppercase character and a number' })
+    })
+
+    it('Verifica se retorna a mensagem correta caso o campo password não seja fornecido', async () => {
+      const response = await chai
+        .request(app)
+        .post('/user/login')
+        .send({
+          email: 'test@example.com'
+
+        })
+
+      expect(response.status).to.be.equal(400)
+      expect(response.body).to.be.deep.equal({ message: 'Password field is required' })
+    })
   })
 
-  it('Verifica se retorna a mensagem correta caso o password não tenha pelo menos 8 caracteres', async () => {
-    const response = await chai
-      .request(app)
-      .post('/user/login')
-      .send({
-        email: 'test@example.com',
-        password: 'test'
-      })
+  describe('[POST /user/register', () => {
+    it('Verifica se retorna a mensagem correta caso o campo email não seja fornecido', async () => {
+      const response = await chai
+        .request(app)
+        .post('/user/register')
+        .send({
+          password: 'Testando123',
+          username: 'test'
 
-    expect(response.status).to.be.equal(400)
-    expect(response.body).to.be.deep.equal({ message: 'Must have at least 8 characters' })
-  })
+        })
 
-  it('Verifica se retorna a mensagem correta caso o password não tenha pelo menos 1 caractere normal e 1 Uppercase', async () => {
-    const response = await chai
-      .request(app)
-      .post('/user/login')
-      .send({
-        email: 'test@example.com',
-        password: 'testando'
-      })
+      expect(response.status).to.be.equal(400)
+      expect(response.body).to.be.deep.equal({ message: 'Email field is required' })
+    })
 
-    expect(response.status).to.be.equal(400)
-    expect(response.body).to.be.deep.equal({ message: 'Must have at least one uppercase character and a number' })
-  })
+    it('Verifica se retorna a mensagem correta caso o campo email não seja um email válido', async () => {
+      const response = await chai
+        .request(app)
+        .post('/user/register')
+        .send({
+          username: 'testname',
+          email: 'testexample.com',
+          password: 'Testando123'
+        })
 
-  it('Verifica se retorna a mensagem correta caso o campo password não seja fornecido', async () => {
-    const response = await chai
-      .request(app)
-      .post('/user/login')
-      .send({
-        email: 'test@example.com'
+      expect(response.status).to.be.equal(400)
+      expect(response.body).to.be.deep.equal({ message: 'Must be a valid email address' })
+    })
 
-      })
+    it('Verifica se retorna a mensagem correta caso o password não tenha pelo menos 8 caracteres', async () => {
+      const response = await chai
+        .request(app)
+        .post('/user/register')
+        .send({
+          username: 'testname',
+          email: 'teste@example.com',
+          password: 'Te1'
+        })
 
-    expect(response.status).to.be.equal(400)
-    expect(response.body).to.be.deep.equal({ message: 'Password field is required' })
-  })
-})
+      expect(response.status).to.be.equal(400)
+      expect(response.body).to.be.deep.equal({ message: 'Must have at least 8 characters' })
+    })
 
-describe('POST /user/register', () => {
-  it('Verifica se retorna a mensagem correta caso o campo email não seja fornecido', async () => {
-    const response = await chai
-      .request(app)
-      .post('/user/register')
-      .send({
-        password: 'Testando123',
-        username: 'test'
+    it('Verifica se retorna a mensagem correta caso o password não tenha pelo menos 1 caractere normal e 1 Uppercase', async () => {
+      const response = await chai
+        .request(app)
+        .post('/user/register')
+        .send({
+          username: 'testname',
+          email: 'test@example.com',
+          password: 'testando'
+        })
 
-      })
+      expect(response.status).to.be.equal(400)
+      expect(response.body).to.be.deep.equal({ message: 'Must have at least one uppercase character and a number' })
+    })
 
-    expect(response.status).to.be.equal(400)
-    expect(response.body).to.be.deep.equal({ message: 'Email field is required' })
-  })
+    it('Verifica se retorna a mensagem correta caso o campo password não seja fornecido', async () => {
+      const response = await chai
+        .request(app)
+        .post('/user/register')
+        .send({
+          email: 'test@example.com'
 
-  it('Verifica se retorna a mensagem correta caso o campo email não seja um email válido', async () => {
-    const response = await chai
-      .request(app)
-      .post('/user/register')
-      .send({
-        username: 'testname',
-        email: 'testexample.com',
-        password: 'Testando123'
-      })
+        })
 
-    expect(response.status).to.be.equal(400)
-    expect(response.body).to.be.deep.equal({ message: 'Must be a valid email address' })
-  })
+      expect(response.status).to.be.equal(400)
+      expect(response.body).to.be.deep.equal({ message: 'Password field is required' })
+    })
 
-  it('Verifica se retorna a mensagem correta caso o password não tenha pelo menos 8 caracteres', async () => {
-    const response = await chai
-      .request(app)
-      .post('/user/register')
-      .send({
-        username: 'testname',
-        email: 'teste@example.com',
-        password: 'Te1'
-      })
+    it('Verifica se retorna a mensagem correta caso o campo username não seja fornecido', async () => {
+      const response = await chai
+        .request(app)
+        .post('/user/register')
+        .send({
+          email: 'test@example.com',
+          password: 'Testando123'
 
-    expect(response.status).to.be.equal(400)
-    expect(response.body).to.be.deep.equal({ message: 'Must have at least 8 characters' })
-  })
+        })
 
-  it('Verifica se retorna a mensagem correta caso o password não tenha pelo menos 1 caractere normal e 1 Uppercase', async () => {
-    const response = await chai
-      .request(app)
-      .post('/user/register')
-      .send({
-        username: 'testname',
-        email: 'test@example.com',
-        password: 'testando'
-      })
+      expect(response.status).to.be.equal(400)
+      expect(response.body).to.be.deep.equal({ message: 'Username field is required' })
+    })
 
-    expect(response.status).to.be.equal(400)
-    expect(response.body).to.be.deep.equal({ message: 'Must have at least one uppercase character and a number' })
-  })
+    it('Verifica se retorna a mensagem correta caso o campo username não tenha pelo menos 3 caracteres', async () => {
+      const response = await chai
+        .request(app)
+        .post('/user/register')
+        .send({
+          username: 'te',
+          email: 'test@example.com',
+          password: 'Testando123'
+        })
 
-  it('Verifica se retorna a mensagem correta caso o campo password não seja fornecido', async () => {
-    const response = await chai
-      .request(app)
-      .post('/user/register')
-      .send({
-        email: 'test@example.com'
-
-      })
-
-    expect(response.status).to.be.equal(400)
-    expect(response.body).to.be.deep.equal({ message: 'Password field is required' })
-  })
-
-  it('Verifica se retorna a mensagem correta caso o campo username não seja fornecido', async () => {
-    const response = await chai
-      .request(app)
-      .post('/user/register')
-      .send({
-        email: 'test@example.com',
-        password: 'Testando123'
-
-      })
-
-    expect(response.status).to.be.equal(400)
-    expect(response.body).to.be.deep.equal({ message: 'Username field is required' })
-  })
-
-  it('Verifica se retorna a mensagem correta caso o campo username não tenha pelo menos 3 caracteres', async () => {
-    const response = await chai
-      .request(app)
-      .post('/user/register')
-      .send({
-        username: 'te',
-        email: 'test@example.com',
-        password: 'Testando123'
-      })
-
-    expect(response.status).to.be.equal(400)
-    expect(response.body).to.be.deep.equal({ message: 'Must have at least 3 characters' })
+      expect(response.status).to.be.equal(400)
+      expect(response.body).to.be.deep.equal({ message: 'Must have at least 3 characters' })
+    })
   })
 })
