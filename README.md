@@ -34,6 +34,8 @@ O projeto é composto de 3 entidades importantes para sua estrutura:
 ## Antes de começar a desenvolver
 👀 Leia essa parte atentamente, pois aqui você encontrará informações importantes para rodar corretamente o projeto.
 
+ ⚠️ Atenção, quando executar o servidor node, será criado automaticamente aluns juices no db e um usuário adm, os dados de acesso irão aparecer no terminal.
+
 <details>
 <summary><strong> 🔰 Pré-requisitos </strong></summary><br />
 
@@ -235,7 +237,6 @@ As rotas a seguir exigem autenticação utilizando o token gerado no processo de
 * URL: /order
 * Descrição: Cria um novo pedido na loja de sucos. Requer autenticação de um usuário com a função de cliente.
 * Parâmetros de entrada:
-  * username: String (obrigatório) - Nome do usuário que está fazendo um pedido.
   * quantity: Number (obrigatório) - Quantidade do suco a ser adicionado ao pedido.
   * flavor: String (obrigatório) - Sabor do suco a ser adicionado ao pedido.
   * size: String (obrigatório) - Tamanho do copo de suco a ser adicionado ao pedido.

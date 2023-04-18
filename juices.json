@@ -1,0 +1,81 @@
+[{
+  "_id": {
+    "$oid": "643f05095f6db22661eb7902"
+  },
+  "flavor": "Morango",
+  "size": "700 ml",
+  "price": 15,
+  "description": "Suco puro da fruta sabor morango feito ingredientes frescos e selecionados",
+  "created_at": "18/04/2023 18:00:56",
+  "updated_at": "18/04/2023 18:00:56"
+},{
+  "_id": {
+    "$oid": "643f05095f6db22661eb7903"
+  },
+  "flavor": "Uva",
+  "size": "700 ml",
+  "price": 15,
+  "description": "Suco puro da fruta sabor uva feito ingredientes frescos e selecionados",
+  "created_at": "18/04/2023 18:00:56",
+  "updated_at": "18/04/2023 18:00:56"
+},{
+  "_id": {
+    "$oid": "643f05095f6db22661eb7904"
+  },
+  "flavor": "Limão",
+  "size": "700 ml",
+  "price": 12,
+  "description": "Suco puro da fruta sabor limão feito ingredientes frescos e selecionados",
+  "created_at": "18/04/2023 18:00:56",
+  "updated_at": "18/04/2023 18:00:56"
+},{
+  "_id": {
+    "$oid": "643f05095f6db22661eb7905"
+  },
+  "flavor": "Laranja",
+  "size": "700 ml",
+  "price": 12,
+  "description": "Suco puro da fruta sabor laranja feito ingredientes frescos e selecionados",
+  "created_at": "18/04/2023 18:00:56",
+  "updated_at": "18/04/2023 18:00:56"
+},{
+  "_id": {
+    "$oid": "643f05095f6db22661eb7906"
+  },
+  "flavor": "Morango",
+  "size": "400 ml",
+  "price": 12,
+  "description": "Suco puro da fruta sabor morango feito ingredientes frescos e selecionados",
+  "created_at": "18/04/2023 18:00:56",
+  "updated_at": "18/04/2023 18:00:56"
+},{
+  "_id": {
+    "$oid": "643f05095f6db22661eb7907"
+  },
+  "flavor": "Uva",
+  "size": "400 ml",
+  "price": 12,
+  "description": "Suco puro da fruta sabor uva feito ingredientes frescos e selecionados",
+  "created_at": "18/04/2023 18:00:56",
+  "updated_at": "18/04/2023 18:00:56"
+},{
+  "_id": {
+    "$oid": "643f05095f6db22661eb7908"
+  },
+  "flavor": "Limão",
+  "size": "400 ml",
+  "price": 9,
+  "description": "Suco puro da fruta sabor limão feito ingredientes frescos e selecionados",
+  "created_at": "18/04/2023 18:00:56",
+  "updated_at": "18/04/2023 18:00:56"
+},{
+  "_id": {
+    "$oid": "643f05095f6db22661eb7909"
+  },
+  "flavor": "Laranja",
+  "size": "400 ml",
+  "price": 9,
+  "description": "Suco puro da fruta sabor laranja feito ingredientes frescos e selecionados",
+  "created_at": "18/04/2023 18:00:56",
+  "updated_at": "18/04/2023 18:00:56"
+}]
